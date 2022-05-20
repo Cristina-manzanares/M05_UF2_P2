@@ -41,7 +41,7 @@ namespace ProyectoSorting
             Console.WriteLine("Initial: " + time.ElapsedMilliseconds + "ms " + time.ElapsedTicks + "ticks");
 
             time.Reset();
-            
+
             time.Start();
 
             func(temp);
@@ -60,7 +60,7 @@ namespace ProyectoSorting
 
             time.Stop();
 
-            Console.WriteLine("Decreasing: " + time.ElapsedMilliseconds + "ms " + time.ElapsedTicks + "ticks");
+            Console.WriteLine("Decreasing: " + time.ElapsedMilliseconds + "ms " + time.ElapsedTicks + "ticks\n");
         }
         public void BubbleSort(int[] array)
         {
@@ -68,7 +68,7 @@ namespace ProyectoSorting
             {
                 for (int j = 0; j < array.Length - 1; j++)
                 {
-                    if(array[j] > array[j + 1])
+                    if (array[j] > array[j + 1])
                     {
                         int temp = array[j];
                         array[j] = array[j + 1];
@@ -85,7 +85,7 @@ namespace ProyectoSorting
                 ordered = true;
                 for (int j = 0; j < array.Length - 1; j++)
                 {
-                    if(array[j] > array[j + 1])
+                    if (array[j] > array[j + 1])
                     {
                         ordered = false;
                         int temp = array[j];
@@ -103,7 +103,7 @@ namespace ProyectoSorting
         }
         public void QuickSort(int[] array, int left, int right)
         {
-            if(left < right)
+            if (left < right)
             {
                 int pivot = QuickSortPivot(array, left, right);
                 QuickSort(array, left, pivot);
@@ -123,7 +123,7 @@ namespace ProyectoSorting
                 {
                     right--;
                 }
-                if(left >= right)
+                if (left >= right)
                 {
                     return right;
                 }
@@ -136,23 +136,80 @@ namespace ProyectoSorting
                 }
             }
         }
-    }
-    class Program
-    {
-        static void Main(string[] args)
+
+
+        void InsertionSort(int[] array)
         {
-            Console.WriteLine("How many elements do you want?");
-            int elements = int.Parse(Console.ReadLine());
+            int size = array.Length;
 
-            Console.WriteLine("What seed do you want to use?");
-            int seed = int.Parse(Console.ReadLine());
+            for (int i = 1; i < size; i++)
+            {
+                int sort = array[i];
+                int j = i - 1;
 
-            Random random = new Random(seed);
-            SortingArray array = new SortingArray(elements, random);
-            array.Sort(array.BubbleSort);
-            array.Sort(array.BubbleSortEarlyExit);
-            array.Sort(array.QuickSort);
 
+                while (j >= 0 && sort < array[j])
+                {
+                    array[j + 1] = array[j];
+                    j--;
+                }
+
+                array[j + 1] = sort;
+            }
+        }
+
+
+        void SelectionSort(int[] array)
+        {
+            int size = array.Length;
+
+            for (int i = 0; i < size - 1; i++)
+            {
+                int min = i;
+
+                for (int j = i + 1; j < size; j++)
+                {
+
+                    // To sort in descending order, change > to < in this line.
+                    // Select the minimum element in each loop.
+                    if (array[i] < array[min])
+                    {
+                        min = i;
+                    }
+                }
+
+                // put min at the correct position
+                int temp = array[i];
+                array[i] = array[min];
+                array[min] = temp;
+            }
+        }
+
+
+
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                Console.WriteLine("How many elements do you want?");
+                int elements = int.Parse(Console.ReadLine());
+
+                Console.WriteLine("What seed do you want to use?");
+                int seed = int.Parse(Console.ReadLine());
+
+                Random random = new Random(seed);
+                Console.WriteLine("\nStart:\n");
+
+
+                SortingArray array = new SortingArray(elements, random);
+                array.Sort(array.BubbleSort);
+                array.Sort(array.BubbleSortEarlyExit);
+                array.Sort(array.QuickSort);
+                array.Sort(array.InsertionSort);
+                array.Sort(array.SelectionSort);
+
+
+            }
         }
     }
 }
